@@ -1,46 +1,50 @@
 package com.marvel.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.marvel.api.entity.Comics;
 import com.marvel.api.sample.loadSamples;
-import com.marvel.api.service.CharacterService;
+import com.marvel.api.service.ComicsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.File;
+import java.io.IOException;
+
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( CharacterController.class )
-class CharacterControlerTest {
+@WebMvcTest( ComicsController.class )
+class ComicControlerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CharacterService characterService;
+    private ComicsService comicsService;
 
     private static final String URL = "/public/v1/";
+    private static final String MOCK_ONE_COMIC = "src/test/resources/json/get-mock-comic.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    void givenValidRequestWhenSubmittedThenGetAllCharacters() throws Exception {
+    void givenValidRequestWhenSubmittedThenGetAllComics() throws Exception {
 
-        when(characterService.getById(anyInt()))
-                .thenReturn(loadSamples.loadCharacter().get(0));
+        when(comicsService.getById(anyInt()))
+                .thenReturn(loadSamples.loadComics().get(0));
 
-        mockMvc.perform(get(URL + "characters/1"))
+        mockMvc.perform(get(URL + "comics/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.name").value("Hulk"))
-                .andExpect(jsonPath("$.comics[0].id").value("1"))
-                .andExpect(jsonPath("$.comics[0].name").value("Imortal Heroes"))
-                .andExpect(jsonPath("$.comics[1].id").value("2"))
-                .andExpect(jsonPath("$.comics[1].name").value("Juggernaut"))
+                .andExpect(content().json(getJsonContent(MOCK_ONE_COMIC, Comics.class)))
                 .andReturn();
+    }
+
+    private String getJsonContent(String path, Class<?> clazz) throws IOException {
+        return mapper.writeValueAsString(mapper.readValue(new File(path), clazz));
     }
 }

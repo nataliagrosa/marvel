@@ -1,12 +1,15 @@
 package com.marvel.api.adapter;
 
 import com.marvel.api.dto.CharacterDTO;
+import com.marvel.api.dto.ComicsDTO;
 import com.marvel.api.entity.Character;
 import com.marvel.api.form.CharacterForm;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -16,6 +19,7 @@ public class CharacterAdapter {
         return Character.builder()
                     .id(character.getId())
                     .name(character.getName())
+                    .comics(character.getComics())
                 .build();
     }
 
@@ -23,6 +27,7 @@ public class CharacterAdapter {
         return CharacterDTO.builder()
                 .id(character.getId())
                 .name(character.getName())
+                .comics(fromCharacters(character))
                 .build();
     }
 
@@ -30,13 +35,17 @@ public class CharacterAdapter {
         return characters.map(CharacterDTO::new);
     }
 
-    public static List<CharacterDTO> fromEntities ( List<Character> characters ) {
-        return characters
+    public static List<ComicsDTO> fromCharacters(Character character) {
+        if(Objects.isNull( character.getComics() )) {
+            return new ArrayList<>();
+        }
+        return character.getComics()
                 .stream()
-                .map(c -> CharacterDTO.builder()
+                .map(
+                        c->  ComicsDTO.builder()
                                 .id(c.getId())
                                 .name(c.getName())
-                            .build())
+                                .build())
                 .collect(Collectors.toList());
     }
 }
