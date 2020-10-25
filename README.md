@@ -26,3 +26,6 @@ Step 4:
 
 [contributors-shield]: https://img.shields.io/github/contributors/nataliagrosa/marvel.svg
 [contributors-url]: https://github.com/nataliagrosa/marvel/graphs/contributor]
+
+Step 5:
+[Import the collections into your postman and execute them](https://github.com/nataliagrosa/marvel/tree/master/docs)
