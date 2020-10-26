@@ -1,9 +1,9 @@
-package com.marvel.api.controller;
+package com.marvel.api.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marvel.api.entity.Comics;
-import com.marvel.api.sample.loadSamples;
-import com.marvel.api.service.ComicsService;
+import com.marvel.api.entity.Comic;
+import com.marvel.api.repository.data.sample.LoadSamples;
+import com.marvel.api.service.ComicService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,14 +19,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( ComicsController.class )
+@WebMvcTest( ComicController.class )
 class ComicControlerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private ComicsService comicsService;
+    private ComicService comicService;
 
     private static final String URL = "/public/v1/";
     private static final String MOCK_ONE_COMIC = "src/test/resources/json/get-mock-comic.json";
@@ -35,12 +35,12 @@ class ComicControlerTest {
     @Test
     void givenValidRequestWhenSubmittedThenGetAllComics() throws Exception {
 
-        when(comicsService.getById(anyInt()))
-                .thenReturn(loadSamples.loadComics().get(0));
+        when(comicService.getById(anyInt()))
+                .thenReturn(LoadSamples.loadComics().get(0));
 
         mockMvc.perform(get(URL + "comics/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(getJsonContent(MOCK_ONE_COMIC, Comics.class)))
+                .andExpect(content().json(getJsonContent(MOCK_ONE_COMIC, Comic.class)))
                 .andReturn();
     }
 

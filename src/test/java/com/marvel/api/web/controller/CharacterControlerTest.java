@@ -1,7 +1,7 @@
-package com.marvel.api.controller;
+package com.marvel.api.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marvel.api.sample.loadSamples;
+import com.marvel.api.repository.data.sample.LoadSamples;
 import com.marvel.api.service.CharacterService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ class CharacterControlerTest {
     void givenValidRequestWhenSubmittedThenGetAllCharacters() throws Exception {
 
         when(characterService.getById(anyInt()))
-                .thenReturn(loadSamples.loadCharacter().get(0));
+                .thenReturn(LoadSamples.loadCharacter().get(0));
 
         mockMvc.perform(get(URL + "characters/1"))
                 .andExpect(status().isOk())

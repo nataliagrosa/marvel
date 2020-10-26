@@ -26,9 +26,9 @@ public class Character {
     private String name;
 
     @ManyToMany
-    private List<Comics> comics;
+    private List<Comic> comics;
 
-    public List<Comics> getComics(){
+    public List<Comic> getComics(){
         return this.comics;
     }
 }
