@@ -1,4 +1,4 @@
-package com.marvel.api.dto;
+package com.marvel.api.web.controller.dto;
 
 import com.marvel.api.entity.Character;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class CharacterDTO {
 
     private int id;
     private String name;
-    private List<ComicsDTO> comics;
+    private List<ComicDTO> comics;
 
     public CharacterDTO(Character character) {
         this.id = character.getId();

@@ -1,28 +1,28 @@
-package com.marvel.api.sample;
+package com.marvel.api.repository.data.sample;
 
 import com.marvel.api.entity.Character;
-import com.marvel.api.entity.Comics;
+import com.marvel.api.entity.Comic;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class loadSamples {
+public class LoadSamples {
 
-    public static List<Comics> loadComics(){
+    public static List<Comic> loadComics(){
         return Arrays.asList(
-                Comics.builder()
+                Comic.builder()
                         .id(1)
                         .name("Imortal Heroes")
                         .build(),
-                Comics.builder()
+                Comic.builder()
                         .id(2)
                         .name("Juggernaut")
                         .build(),
-                Comics.builder()
+                Comic.builder()
                         .id(3)
                         .name("The fantasy")
                         .build(),
-                Comics.builder()
+                Comic.builder()
                         .id(4)
                         .name("World war")
                         .build()
@@ -31,16 +31,16 @@ public class loadSamples {
 
     public static List<Character> loadCharacter(){
 
-        List<Comics> hulkComics = Arrays.asList(
-                    Comics.builder()
+        List<Comic> hulkComics = Arrays.asList(
+                    Comic.builder()
                             .id(1)
                             .name("Imortal Heroes")
                         .build(),
-                    Comics.builder()
+                    Comic.builder()
                             .id(2)
                             .name("Juggernaut")
                     .build());
-        List<Comics> spiderComics = Arrays.asList(Comics.builder().id(3).build());
+        List<Comic> spiderComics = Arrays.asList(Comic.builder().id(3).build());
 
         return Arrays.asList(
                 Character.builder()

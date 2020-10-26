@@ -1,9 +1,10 @@
-package com.marvel.api.controller;
+package com.marvel.api.web.controller;
 
-import com.marvel.api.dto.CharacterDTO;
-import com.marvel.api.dto.ComicsDTO;
-import com.marvel.api.form.CharacterForm;
+import com.marvel.api.web.controller.dto.CharacterDTO;
+import com.marvel.api.web.controller.dto.ComicDTO;
+import com.marvel.api.web.controller.form.CharacterForm;
 import com.marvel.api.service.CharacterService;
+import com.marvel.api.web.controller.dto.saved.CharacterDTOSaved;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.marvel.api.adapter.CharacterAdapter.fromCharacters;
-import static com.marvel.api.adapter.CharacterAdapter.fromEntitiesPage;
-import static com.marvel.api.adapter.CharacterAdapter.fromEntity;
-import static com.marvel.api.adapter.CharacterAdapter.fromForm;
+import static com.marvel.api.adapter.CharacterAdapter.*;
 
 @RestController
 @RequestMapping("public/v1/characters")
@@ -39,7 +37,7 @@ public class CharacterController {
     }
 
     @GetMapping("/{id}/comics")
-    public ResponseEntity<List<ComicsDTO>> getAllComicsByCharacterId(@PathVariable("id") int id, @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable pageable ) {
+    public ResponseEntity<List<ComicDTO>> getAllComicsByCharacterId(@PathVariable("id") int id, @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable pageable ) {
         return ResponseEntity.ok(fromCharacters(characterService.getAllComicsByCharacterId(id)));
     }
 
@@ -49,8 +47,8 @@ public class CharacterController {
     }
 
     @PostMapping
-    public ResponseEntity< CharacterDTO > save(@Valid @RequestBody CharacterForm character) {
-        return ResponseEntity.ok(fromEntity(characterService.saveOrUpdate(fromForm(character))));
+    public ResponseEntity<CharacterDTOSaved> save(@Valid @RequestBody CharacterForm character) {
+        return ResponseEntity.ok(fromEntityForm(characterService.save(fromForm(character))));
     }
 
     @DeleteMapping("/{id}")

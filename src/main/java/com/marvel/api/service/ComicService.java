@@ -1,7 +1,7 @@
 package com.marvel.api.service;
 
-import com.marvel.api.entity.Comics;
-import com.marvel.api.repository.ComicsRepository;
+import com.marvel.api.entity.Comic;
+import com.marvel.api.repository.ComicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,31 +12,31 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @Service
-public class ComicsService {
+public class ComicService {
 
     @Autowired
-    ComicsRepository comicsRepository;
+    ComicRepository comicRepository;
 
     private static final String RECORD_NOT_FOUND_MESSAGE = "Record not found";
 
-    public Page<Comics> getAll(Pageable paginacao) {
-        return comicsRepository.findAll(paginacao);
+    public Page<Comic> getAll(Pageable paginacao) {
+        return comicRepository.findAll(paginacao);
     }
 
-    public Comics getById(int id) {
-        return comicsRepository
+    public Comic getById(int id) {
+        return comicRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, RECORD_NOT_FOUND_MESSAGE));
     }
 
-    public Comics saveOrUpdate(Comics comics) {
-        return comicsRepository.save(comics);
+    public Comic save(Comic comic) {
+        return comicRepository.save(comic);
     }
 
     public void delete(int id) {
-        Optional<Comics> comics = comicsRepository.findById(id);
+        Optional<Comic> comics = comicRepository.findById(id);
         if ( comics.isPresent() ) {
-            comicsRepository.delete(comics.get());
+            comicRepository.delete(comics.get());
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, RECORD_NOT_FOUND_MESSAGE);
         }
