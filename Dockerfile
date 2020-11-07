@@ -3,6 +3,6 @@ ARG PORT=8080
 ARG JAR_FILE=target/api-0.1.0.jar
 VOLUME [ "/data" ]
 EXPOSE ${PORT}
-COPY ${JAR_FILE} /api/application/api.jar
+COPY ${JAR_FILE} /api/application/api-0.1.0.jar
 WORKDIR /api/application
-ENTRYPOINT [ "java", "-jar", "api.jar" ]
+ENTRYPOINT [ "java", "-jar", "api-0.1.0.jar" ]
